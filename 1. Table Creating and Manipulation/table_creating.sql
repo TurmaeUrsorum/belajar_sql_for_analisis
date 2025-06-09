@@ -10,3 +10,8 @@ CREATE TABLE sdm.karyawan (
 SELECT * FROM sdm.karyawan;
 
 DESC sdm.karyawan;
+
+INSERT INTO
+  sdm.karyawan
+VALUES
+  ("A01", "Andi", 2, "1997-09-08");
