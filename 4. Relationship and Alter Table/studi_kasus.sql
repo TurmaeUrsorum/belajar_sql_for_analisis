@@ -101,3 +101,5 @@ VALUES
 
 
 SELECT * FROM peminjam_buku
+
+-- mantap
