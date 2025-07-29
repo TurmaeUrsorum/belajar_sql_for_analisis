@@ -32,3 +32,105 @@ SELECT * FROM umkm_jabar;
 
 SELECT * FROM umkm_jabar WHERE nama_kabupaten_kota = "KOTA BANDUNG";
 
+--2. 
+SELECT * FROM umkm_jabar WHERE tahun >= 2019 ORDER BY kategori_usaha;
+
+--2.1.
+
+SELECT * FROM umkm_jabar WHERE tahun >= 2019 ORDER BY kategori_usaha LIMIT 10;
+
+--3
+
+SELECT DISTINCT kategori_usaha FROM umkm_jabar
+
+-- 4
+
+SELECT * FROM umkm_jabar WHERE kategori_usaha IN ("FASHION", "MINUMAN") ORDER BY kategori_usaha
+
+-- 5
+
+SELECT
+    *
+FROM
+    umkm_jabar
+WHERE
+    nama_kabupaten_kota = "KABUPATEN KARAWANG"
+    AND kategori_usaha = "FASHION"
+    AND tahun IN (2017, 2021)
+ORDER BY
+    tahun ASC;
+
+-- 6
+
+SELECT
+    nama_kabupaten_kota,
+    kategori_usaha,
+    jumlah_umkm,
+    satuan,
+    tahun
+FROM
+    umkm_jabar
+WHERE
+    kategori_usaha = "KULINER"
+    OR kategori_usaha = "FASHION"
+
+limit 10
+
+-- 7. Tunjukkan seluruh data selain kategori usaha kuliner, makanan dan minuman!
+SELECT
+    *
+FROM
+    umkm_jabar
+WHERE
+    kategori_usaha NOT IN ("KULINER", "MAKANAN", "MINUMAN");
+
+-- 8. Apakah terdapat id yang memiliki jumlah_umkm yang tidak diketahui (NULL)?
+SELECT
+    *
+FROM
+    umkm_jabar
+WHERE
+    jumlah_umkm IS NULL;
+
+-- 9. Dari tahun 2018 s.d. 2020, bagaimana tren jumlah umkm di Kabupaten Tasikmalaya untuk kategori usaha Batik? 
+SELECT
+    *
+FROM
+    umkm_jabar
+WHERE
+    nama_kabupaten_kota = "Kabupaten Tasikmalaya"
+    AND kategori_usaha = "BATIK"
+    AND tahun BETWEEN 2018
+    AND 2020
+ORDER BY
+    jumlah_umkm ASC;
+
+-- 10. Di antara Kota Bandung, Kabupaten Bandung dan Kabupaten Bandung Barat, di manakah umkm kuliner terpusat pada tahun 2021?
+SELECT
+    *
+FROM
+    umkm_jabar
+WHERE
+    nama_kabupaten_kota LIKE "%bandung%"
+    AND kategori_usaha = "KULINER"
+    AND tahun = 2021
+ORDER BY
+    jumlah_umkm DESC;
+
+-- 11. Kabupaten/Kota mana saja yang memiliki angka 7 pada digit ke 3 kode tersebut?
+SELECT
+    kode_kabupaten_kota,
+    nama_kabupaten_kota
+FROM
+    umkm_jabar
+WHERE
+    kode_kabupaten_kota LIKE "__7%";
+
+SELECT
+    DISTINCT kode_kabupaten_kota,
+    nama_kabupaten_kota
+FROM
+    umkm_jabar
+WHERE
+    kode_kabupaten_kota LIKE "__7%";
+
