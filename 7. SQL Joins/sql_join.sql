@@ -86,5 +86,37 @@ WHERE order_id IN (
     HAVING COUNT(*) > 1
 );
 
+--3 Buatlah subquery untuk menampilkan customer dengan total pembelanjaan (total price) paling banyak
+
+SELECT * FROM customers
+
+SELECT * FROM orders
+
+SELECT * FROM orders_items
+
+SELECT * FROM customers
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM orders
+    WHERE order_id IN (
+        SELECT order_id FROM orders_items
+        GROUP BY order_id
+        ORDER BY SUM(quantity) DESC
+    )
+);
+
+--4 Buatlah subquery untuk menampilkan jenis produk yang memiliki harga 2x lipat lebih tinggi dari harga Smartphone.
+
+SELECT * FROM products
+
+SELECT product_name, price
+FROM products
+WHERE price > 2 * (
+    SELECT price
+    FROM products
+    WHERE product_name = 'Smartphone'
+);
+
+
 
 
