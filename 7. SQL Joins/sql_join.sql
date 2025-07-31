@@ -105,6 +105,19 @@ WHERE customer_id IN (
     )
 );
 
+SELECT *
+FROM customers
+WHERE customer_id = (
+    SELECT o.customer_id
+    FROM orders o
+    JOIN orders_items oi ON o.order_id = oi.order_id
+    JOIN products p ON oi.product_id = p.product_id
+    GROUP BY o.customer_id
+    ORDER BY SUM(oi.quantity * p.price) DESC
+    LIMIT 1
+);
+
+
 --4 Buatlah subquery untuk menampilkan jenis produk yang memiliki harga 2x lipat lebih tinggi dari harga Smartphone.
 
 SELECT * FROM products
