@@ -24,8 +24,9 @@ SELECT
     MIN(math_score) as math_score_min
 FROM `Students_Performance`
 GROUP BY
+    parental_level_of_education
+ORDER BY
     parental_level_of_education;
-
 --3 
 SELECT * FROM `Students_Performance`
 
@@ -33,6 +34,7 @@ SELECT DISTINCT test_preparation_course FROM `Students_Performance`
 
 SELECT
     gender,
+    test_preparation_course,
     AVG(math_score) as math_score_rata_rata,
     AVG(reading_score) as reading_score_rata_rata,
     AVG(writing_score) as writing_score_rata_rata
@@ -54,6 +56,14 @@ WHERE
     OR parental_level_of_education = "some high school"
 GROUP BY
     parental_level_of_education
+
+-- yang benar
+SELECT
+    AVG(writing_score) AS avg_writing_score
+FROM
+    `Students_Performance`
+WHERE
+    parental_level_of_education LIKE '%high school%';
 
 --5
 SELECT * FROM `Students_Performance`
