@@ -62,7 +62,29 @@ INSERT INTO products (product_id, product_name, price, category_id) VALUES
 (5, 'Camera', 600, 4);
 
 
+--1. Buatlah query dengan menggunakan subquery untuk mencari customer yang melakukan pembelian pertama pada tanggal 25-27 Februari 2024
 
+
+SELECT * FROM customers
+WHERE customer_id IN (
+    SELECT customer_id FROM orders
+    WHERE order_date BETWEEN '2024-02-25' AND '2024-02-27'
+)
+
+--2. Buatlah subquery untuk menampilkan order_id yang memiliki lebih dari 1 jenis produk.
+
+SELECT * FROM orders
+
+SELECT * FROM orders_items
+
+SELECT order_id 
+FROM orders
+WHERE order_id IN (
+    SELECT order_id
+    FROM orders_items
+    GROUP BY order_id
+    HAVING COUNT(*) > 1
+);
 
 
 
