@@ -53,11 +53,16 @@ FROM employees
 --2 Buatlah query untuk memunculkan karyawan dengan masa kerja 5-10 tahun.
 
 SELECT 
-employee_id, first_name,
-DATEDIFF(CURRENT_DATE(), hire_date) / 365 as Tenure
-FROM employees
-WHERE DATEDIFF(CURRENT_DATE(), hire_date) / 365 BETWEEN 5 AND 10
-ORDER BY Tenure
+  employee_id, 
+  first_name,
+  TIMESTAMPDIFF(YEAR, hire_date, CURRENT_DATE()) AS Tenure
+FROM 
+  employees
+WHERE 
+  TIMESTAMPDIFF(YEAR, hire_date, CURRENT_DATE()) BETWEEN 5 AND 10
+ORDER BY 
+  Tenure;
+
 
 --3 Buatlah query untuk memunculkan nama dan department dari 
 --masing-masing karyawan dengan 
