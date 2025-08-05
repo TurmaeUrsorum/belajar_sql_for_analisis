@@ -110,6 +110,64 @@ CALL get_gender_math_score(@Jenis_Gender, @rerata_nilai_math)
 
 SELECT @Jenis_Gender, @rerata_nilai_math
 
+--5 
+
+DROP TABLE IF EXISTS id_buku;
+DROP PROCEDURE IF EXISTS buatidbuku;
+CREATE TABLE id_buku (id INT);
+DELIMITER //
+CREATE PROCEDURE buatidbuku()
+BEGIN
+
+DECLARE Counter Int ;
+SET Counter = 0;
+
+WHILE Counter <= 7 DO
+INSERT INTO
+id_buku (id)
+VALUES
+(Counter);
+SET
+Counter = Counter + 1;
+
+END WHILE;
+END $$
+DELIMITER ;
+
+--6 
+
+DELIMITER //
+
+create PROCEDURE hitung_luas (
+    IN jenis_bangun_datar VARCHAR(100),
+    IN x FLOAT,
+    IN y FLOAT,
+    OUT luas FLOAT,
+    OUT keterangan VARCHAR(100)
+)
+BEGIN
+    IF jenis_bangun_datar = "Segitiga"
+    THEN
+     SET luas = 0.5 * x * y;
+     SET keterangan = "Segitiga";
+    ELSEIF jenis_bangun_datar = "Persegi Pajang"
+    THEN
+     SET luas = x * y;
+     SET keterangan = "Persegi";
+    ELSEIF jenis_bangun_datar = "lingkaran"
+    THEN
+     SET luas = NULL;
+     SET keterangan = "Bangun Datar tidak mendukung";
+    END IF;
+END //
+DELIMITER ;
+
+DROP Procedure hitung_luas
+
+CALL hitung_luas("lingkaran", 5, 10, @luas, @keterangan);
+
+SELECT @luas, @keterangan;
+
 
 
 
