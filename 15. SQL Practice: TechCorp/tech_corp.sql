@@ -134,3 +134,109 @@ VALUES
 (4, 1, 'Laptop blue screen', 'resolved', '2024-01-05 10:00:00', '2024-02-05 12:00:00'),
 (5, 1, 'Laptop lagging', 'resolved', '2024-01-06 10:00:00', '2024-01-25 12:00:00'),
 (3, 1, 'Some part of laptop broken', 'resolved', '2024-02-05 10:00:00', '2024-03-05 12:00:00');
+
+-- Study case
+
+
+--1 Identifikasi 3 pelanggan teratas berdasarkan total nominal pesanan!
+
+
+SELECT
+    c.customer_id,
+    c.first_name,
+    -- pakai collase agar terhindar nilai null
+    COALESCE(SUM(o.total_amount), 0) AS total_pesanan
+FROM Customers c
+JOIN Orders o 
+    ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.first_name
+ORDER BY total_pesanan DESC
+LIMIT 3;
+
+--2 Temukan rata-rata nominal pesanan untuk setiap pelanggan!
+
+SELECT
+    c.customer_id,
+    c.first_name,
+    -- pakai COALESCE agar terhindar nilai null
+    COALESCE(AVG(o.total_amount), 0) AS rata_rata_pesanan
+FROM
+    `Customers` c
+LEFT JOIN
+    `Orders` o ON c.customer_id = o.customer_id
+GROUP BY
+    c.customer_id,
+    c.first_name
+
+--3 Temukan semua karyawan yang telah menyelesaikan lebih dari 4 tiket support!
+
+SELECT
+    e.employee_id,
+    e.first_name,
+    -- SUM(IF(st.status = 'resolved', 1, 0)) AS total_resolved
+    -- alternatif laen selain sum
+    COUNT(IF(st.status = 'resolved', 1, NULL)) AS total_resolved
+FROM
+    `Employees` e
+JOIN
+    `SupportTickets` st ON e.employee_id = st.employee_id
+GROUP BY
+    e.employee_id,
+    e.first_name
+HAVING
+    total_resolved > 4
+
+-- 4 Temukan semua produk yang belum pernah dipesan!
+
+SELECT
+    *
+FROM
+    `Products` p
+LEFT JOIN
+    `OrderDetails` od ON p.product_id = od.product_id
+WHERE
+    od.order_id IS NULL
+
+--5 Hitung total pendapatan yang dihasilkan dari penjualan produk!
+
+SELECT * FROM `Orders`
+
+WITH total_revenue AS (
+    SELECT
+        product_id,
+        SUM(quantity * unit_price) AS total_revenue
+    FROM OrderDetails
+    GROUP BY product_id
+)
+SELECT
+    product_id,
+    total_revenue
+FROM total_revenue;
+
+--6 Temukan harga rata-rata produk untuk setiap kategori dan temukan kategori dengan harga rata-rata lebih dari $500!
+
+SELECT
+    category,
+    AVG(price) AS avg_price
+FROM
+    `Products`
+GROUP BY
+    category
+HAVING
+    avg_price > 500
+
+--7 Temukan pelanggan yang telah membuat setidaknya satu pesanan dengan total jumlah lebih dari $1000!
+
+SELECT
+    c.customer_id,
+    c.first_name,
+    SUM(o.total_amount) AS total_amount
+FROM
+    `Customers` c
+LEFT JOIN
+    `Orders` o ON c.customer_id = o.customer_id
+GROUP BY
+    c.customer_id
+HAVING
+    total_amount > 1000
+
