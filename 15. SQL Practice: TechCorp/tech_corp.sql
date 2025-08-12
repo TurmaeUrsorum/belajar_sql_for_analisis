@@ -1,0 +1,3 @@
+-- Active: 1728529519693@@127.0.0.1@3306@tech_corp
+
+show TABLES;
